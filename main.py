@@ -14,7 +14,8 @@ def readDataSQLite():
     cursor = connect.cursor()
     sql = "select * from companies"
     cursor.execute(sql)
-    results = cursor.fetchone()
+    results = cursor.fetchmany(5) # we can use fetchone(for one company), fetchall(for all companies) and fetchmany(
+    # for how many companies we want)
     print(results)
 
 
