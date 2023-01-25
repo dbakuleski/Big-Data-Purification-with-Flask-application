@@ -9,12 +9,13 @@ import random
 app = Flask(__name__)
 
 
+@app.route('/get_companies', methods=["GET"])
 def readDataSQLite():
     connect = sqlite3.connect(r"/home/visitor/Desktop/Realen-Proekt-Python/data.db")
     cursor = connect.cursor()
     sql = "select * from companies"
     cursor.execute(sql)
-    results = cursor.fetchmany(5)  # we can use fetchone(for one company), fetchall(for all companies) and fetchmany(
+    results = cursor.fetchall()  # we can use fetchone(for one company), fetchall(for all companies) and fetchmany(
     # for how many companies we want)
     print(results)
 
@@ -59,5 +60,3 @@ if __name__ == '__main__':
     url = "http://127.0.0.1:{0}".format(port)
     print(url)
     app.run(use_reloader=False, debug=True, port=port)
-
-
