@@ -9,6 +9,11 @@ import random
 app = Flask(__name__)
 
 
+@app.route('/')
+def hello_companies():
+    return 'Companies'
+
+
 @app.route('/get_companies', methods=["GET"])
 def readDataSQLite():
     connect = sqlite3.connect(r"/home/visitor/Desktop/Realen-Proekt-Python/data.db")
@@ -18,9 +23,7 @@ def readDataSQLite():
     results = cursor.fetchall()  # we can use fetchone(for one company), fetchall(for all companies) and fetchmany(
     # for how many companies we want)
     print(results)
-
-
-readDataSQLite()
+    return results
 
 
 def get_database():
