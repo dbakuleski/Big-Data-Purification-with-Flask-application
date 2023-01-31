@@ -13,3 +13,7 @@ for name in oneCompany:
     name = re.sub(r"[^a-zA-Z0-9]+", "", name)
     cleaned_names.append(name)
 
+
+
+
+
