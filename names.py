@@ -1,7 +1,8 @@
 import re
 import requests
+import json
 
-response = requests.get("http://127.0.0.1:5350/")
+response = requests.get("http://127.0.0.1:5964/")
 oneCompany = response.json()
 print(oneCompany)
 

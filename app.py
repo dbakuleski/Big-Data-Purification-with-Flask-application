@@ -1,7 +1,7 @@
 import sqlite3
 import pymongo
 from flask import Flask, request
-import random
+import json
 
 app = Flask(__name__)
 
@@ -19,7 +19,18 @@ def readDataSQLite():
     cursor.execute(sql)
     results = cursor.fetchall()  # we can use fetchone(for one company), fetchall(for all companies) and fetchmany(
     # for how many companies we want)
-    return results
+    return [results]
+
+
+@app.route('/one_company', methods=["GET"])
+def oneCompany():
+    connect = sqlite3.connect(r"/home/visitor/Desktop/Realen-Proekt-Python/data.db")
+    cursor = connect.cursor()
+    sql = "select * from companies"
+    cursor.execute(sql)
+    result = cursor.fetchone()  # we can use fetchone(for one company), fetchall(for all companies) and fetchmany(
+    # for how many companies we want)
+    return [result]
 
 
 def get_database():
@@ -33,12 +44,15 @@ db = get_database()
 
 @app.route('/create', methods=["POST"])
 def create_companies():
-    id = request.form.get("id")
-    name = request.form.get("name")
-    country_iso = request.form.get("country_iso")
-    city = request.form.get("city")
-    nace = request.form.get("nace")
-    website = request.form.get("website")
+
+    data = json.loads(request.data)
+
+    id = data.get("id")
+    name = data.get("name")
+    country_iso = data.get("country_iso")
+    city = data.get("city")
+    nace = data.get("nace")
+    website = data.get("website")
 
     companies_collection = db["companies"]
     company = {
@@ -54,7 +68,8 @@ def create_companies():
 
 
 if __name__ == '__main__':
-    port = 5000 + random.randint(0, 999)
+    # port = 5000 + random.randint(0, 999)
+    port = 5964
     print(port)
     url = "http://127.0.0.1:{0}".format(port)
     print(url)
