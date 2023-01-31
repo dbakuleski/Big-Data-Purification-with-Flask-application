@@ -3,7 +3,6 @@ import re
 import cleanco
 import pymongo
 from flask import Flask, request
-import requests
 import random
 
 app = Flask(__name__)
@@ -22,7 +21,6 @@ def readDataSQLite():
     cursor.execute(sql)
     results = cursor.fetchall()  # we can use fetchone(for one company), fetchall(for all companies) and fetchmany(
     # for how many companies we want)
-    print(results)
     return results
 
 
