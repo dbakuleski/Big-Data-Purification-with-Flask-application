@@ -1,5 +1,4 @@
 import sqlite3
-import cleanco
 import pymongo
 from flask import Flask, request
 import random
