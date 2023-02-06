@@ -11,22 +11,25 @@ def hello_companies():
     return 'Companies'
 
 
-@app.route('/get_companies', methods=["GET"])
+@app.route('/get-companies-names', methods=["GET"])
 def readDataSQLite():
     connect = sqlite3.connect(r"/home/visitor/Desktop/Realen-Proekt-Python/data.db")
     cursor = connect.cursor()
-    sql = "select * from companies"
+    sql = "select name from companies"
     cursor.execute(sql)
     results = cursor.fetchall()  # we can use fetchone(for one company), fetchall(for all companies) and fetchmany(
     # for how many companies we want)
-    return [results]
+    return results
 
 
-@app.route('/one_company', methods=["GET"])
+@app.route('/one-company-data', methods=["GET"])
 def oneCompany():
+    # http://localhost:5432/one-company-data?name="Name of the company"
     connect = sqlite3.connect(r"/home/visitor/Desktop/Realen-Proekt-Python/data.db")
     cursor = connect.cursor()
-    sql = "select * from companies"
+    company_name = request.args.get('name')
+    print(company_name)
+    sql = f"select * from companies where name == '{company_name}'"
     cursor.execute(sql)
     result = cursor.fetchone()  # we can use fetchone(for one company), fetchall(for all companies) and fetchmany(
     # for how many companies we want)
@@ -44,7 +47,7 @@ db = get_database()
 
 @app.route('/create', methods=["POST"])
 def create_companies():
-
+    # za Mongo!
     data = json.loads(request.data)
 
     id = data.get("id")

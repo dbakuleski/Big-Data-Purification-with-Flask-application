@@ -3,15 +3,19 @@ import requests
 from cleanco import basename
 import string
 
-response = requests.get("http://127.0.0.1:5964/one_company")
-data = response.json()
-company_name = data[" "]
+
+def get_companies_names():
+    response = requests.get("http://127.0.0.1:5964/get-company-names")
+    data = response.json()
+    return data
 
 
 def clean_company_name(name):
+    print("Cleaning company name")
     name = name.strip()
     name = name.replace(" ", "")
     name = re.sub(r"[^a-zA-Z0-9]+", "", name)
+    print("Finished cleaning company name")
     return name
 
 
