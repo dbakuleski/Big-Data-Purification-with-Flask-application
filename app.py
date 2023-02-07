@@ -2,7 +2,7 @@ import sqlite3
 import pymongo
 from flask import Flask, request
 import json
-from names import get_companies_names, clean_company_name
+from names import get_companies_names, clean_company_name, capital_letters, capitalize_abbreviations
 
 app = Flask(__name__)
 
