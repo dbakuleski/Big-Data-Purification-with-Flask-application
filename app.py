@@ -2,12 +2,14 @@ import sqlite3
 import pymongo
 from flask import Flask, request
 import json
+from names import get_companies_names, clean_company_name
 
 app = Flask(__name__)
 
 
 @app.route('/')
 def hello_companies():
+    get_companies_names()
     return 'Companies'
 
 
@@ -15,7 +17,7 @@ def hello_companies():
 def readDataSQLite():
     connect = sqlite3.connect(r"/home/visitor/Desktop/Realen-Proekt-Python/data.db")
     cursor = connect.cursor()
-    sql = "select name from companies"
+    sql = "select * from companies"
     cursor.execute(sql)
     results = cursor.fetchall()  # we can use fetchone(for one company), fetchall(for all companies) and fetchmany(
     # for how many companies we want)
@@ -28,7 +30,6 @@ def oneCompany():
     connect = sqlite3.connect(r"/home/visitor/Desktop/Realen-Proekt-Python/data.db")
     cursor = connect.cursor()
     company_name = request.args.get('name')
-    print(company_name)
     sql = f"select * from companies where name == '{company_name}'"
     cursor.execute(sql)
     result = cursor.fetchone()  # we can use fetchone(for one company), fetchall(for all companies) and fetchmany(
@@ -56,15 +57,16 @@ def create_companies():
     city = data.get("city")
     nace = data.get("nace")
     website = data.get("website")
+    name2 = clean_company_name(name)
 
     companies_collection = db["companies"]
-    company = {
+    company = {name2: {
         "id": id,
-        "name": name,
         "country_iso": country_iso,
         "city": city,
         "nace": nace,
         "website": website,
+    }
     }
     companies_collection.insert_one(company)
     return f"Successfully added company {name} - {country_iso} - {id}"
