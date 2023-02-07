@@ -47,7 +47,7 @@ db = get_database()
 
 @app.route('/create', methods=["POST"])
 def create_companies():
-    # za Mongo!
+    # for Mongo !!
     data = json.loads(request.data)
 
     id = data.get("id")
