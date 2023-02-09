@@ -2,6 +2,7 @@ import sqlite3
 import pymongo
 from flask import Flask, request
 import json
+import requests
 from names import get_companies_names, final_name
 
 app = Flask(__name__)
@@ -61,7 +62,7 @@ def create_companies():
     name2 = final_name(name)
 
     companies_collection = db["companies"]
-    company = {name2: {
+    company_dictionary = {name2: {
         "id": id,
         "country_iso": country_iso,
         "city": city,
@@ -69,12 +70,11 @@ def create_companies():
         "website": website,
     }
     }
-    companies_collection.insert_one(company)
+    companies_collection.insert_one(company_dictionary)
     return f"Successfully added company {name} - {country_iso} - {id}"
 
 
 if __name__ == '__main__':
-
     port = 5964
     print(port)
     url = "http://127.0.0.1:{0}".format(port)

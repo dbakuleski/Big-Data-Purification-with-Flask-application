@@ -1,4 +1,4 @@
-import string
+import json
 import re
 import requests
 from cleanco import prepare_terms, basename
@@ -12,12 +12,11 @@ def get_companies_names():
     return data
 
 
-# def post_companies_names():
-#     companies = requests.get("http://127.0.0.1:5964/get-companies-names").json()
-#     for company in companies:
-#         company = final_name(company)
-#     response = requests.post("http://127.0.0.1:5964/create", data=json.dumps(company))
-#     return response
+def post_companies_names():
+    response = requests.get("http://127.0.0.1:5964/get-companies-names")
+    for company in response:
+        company = final_name(company)
+        requests.post("http://127.0.0.1:5964/create", data=json.dumps(company))
 
 
 def final_name(name):
