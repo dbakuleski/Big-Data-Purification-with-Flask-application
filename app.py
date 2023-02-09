@@ -1,16 +1,13 @@
 import sqlite3
 import pymongo
-from flask import Flask, request
 import json
-import requests
-from names import get_companies_names, final_name
+from flask import Flask, request
 
 app = Flask(__name__)
 
 
 @app.route('/')
 def hello_companies():
-    get_companies_names()
     return 'Companies'
 
 
@@ -20,8 +17,7 @@ def readDataSQLite():
     cursor = connect.cursor()
     sql = "select * from companies"
     cursor.execute(sql)
-    results = cursor.fetchall()  # we can use fetchone(for one company), fetchall(for all companies) and fetchmany(
-    # for how many companies we want)
+    results = cursor.fetchall()
     return results
 
 
@@ -33,8 +29,7 @@ def oneCompany():
     company_name = request.args.get('name')
     sql = f"select * from companies where name == '{company_name}'"
     cursor.execute(sql)
-    result = cursor.fetchone()  # we can use fetchone(for one company), fetchall(for all companies) and fetchmany(
-    # for how many companies we want)
+    result = cursor.fetchone()
     return [result]
 
 
@@ -49,7 +44,6 @@ db = get_database()
 
 @app.route('/create', methods=["POST"])
 def create_companies():
-    # for Mongo !!
     data = json.loads(request.data)
 
     id = data.get("id")
@@ -59,10 +53,8 @@ def create_companies():
     nace = data.get("nace")
     website = data.get("website")
 
-    name2 = final_name(name)
-
     companies_collection = db["companies"]
-    company_dictionary = {name2: {
+    company_dictionary = {name: {
         "id": id,
         "country_iso": country_iso,
         "city": city,
@@ -71,11 +63,12 @@ def create_companies():
     }
     }
     companies_collection.insert_one(company_dictionary)
+    print("hello")
     return f"Successfully added company {name} - {country_iso} - {id}"
 
 
 if __name__ == '__main__':
-    port = 5964
+    port = 5769
     print(port)
     url = "http://127.0.0.1:{0}".format(port)
     print(url)

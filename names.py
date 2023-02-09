@@ -5,25 +5,33 @@ from cleanco import prepare_terms, basename
 
 
 def get_companies_names():
-    response = requests.get("http://127.0.0.1:5964/get-companies-names")
+    """
+
+    :return:
+    """
+    response = requests.get("http://127.0.0.1:5769/get-companies-names")
     data = response.json()
-    # print(response.status_code)
-    # print(response.text)
     return data
 
 
 def post_companies_names():
-    response = requests.get("http://127.0.0.1:5964/get-companies-names")
-    for company in response:
-        company = final_name(company)
-        requests.post("http://127.0.0.1:5964/create", data=json.dumps(company))
+    companies = get_companies_names()
+    for company in companies:
+        name = final_name(company[1])
+        dictionary = {"id": company[0],
+                      "name": name,
+                      "country_iso": company[2],
+                      "city": company[3],
+                      "nace": company[4],
+                      "website": company[5]
+                      }
+        requests.post("http://127.0.0.1:5769/create", data=json.dumps(dictionary))
 
 
 def final_name(name):
-    name = capital_letters(name)
     name = clean_company_name(name)
     name = cleanco_company_name(name)
-    name = capitalize_abbreviations(name)
+    name = capital_letters(name)
     return name
 
 
@@ -48,6 +56,4 @@ def capital_letters(name):
     return name
 
 
-def capitalize_abbreviations(name):
-    name = re.sub(r"\b[a-zA-Z]+(\.[a-zA-Z]+)*\b", lambda x: x.group().upper(), name)
-    return name
+post_companies_names()
