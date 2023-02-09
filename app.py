@@ -2,7 +2,7 @@ import sqlite3
 import pymongo
 from flask import Flask, request
 import json
-from names import get_companies_names, clean_company_name
+from names import get_companies_names, final_name
 
 app = Flask(__name__)
 
@@ -57,7 +57,8 @@ def create_companies():
     city = data.get("city")
     nace = data.get("nace")
     website = data.get("website")
-    name2 = clean_company_name(name)
+
+    name2 = final_name(name)
 
     companies_collection = db["companies"]
     company = {name2: {
@@ -73,7 +74,7 @@ def create_companies():
 
 
 if __name__ == '__main__':
-    # port = 5000 + random.randint(0, 999)
+
     port = 5964
     print(port)
     url = "http://127.0.0.1:{0}".format(port)
