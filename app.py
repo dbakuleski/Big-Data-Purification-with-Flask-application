@@ -23,7 +23,6 @@ def readDataSQLite():
 
 @app.route('/one-company-data', methods=["GET"])
 def oneCompany():
-    # http://localhost:5432/one-company-data?name="Name of the company"
     connect = sqlite3.connect(r"/home/visitor/Desktop/Realen-Proekt-Python/data.db")
     cursor = connect.cursor()
     company_name = request.args.get('name')
