@@ -8,7 +8,7 @@ def get_companies_names():
     """
     Sending get request, saving the response as response object and extracting data in json format.
 
-    :return: The extracted data in json format.
+    :return: the extracted data in json format.
     """
     response = requests.get("http://127.0.0.1:5769/get-companies-names")
     data = response.json()
@@ -36,10 +36,9 @@ def post_companies_names():
 
 def final_name(name):
     """
-    A function that uses all the functions below for cleaning the company names.
+    Uses all the functions below for cleaning the company names.
 
-    :param name: the name of the company that is being cleaned
-
+    :param str name: the name of the company that is being cleaned
     :return: the final version of the name after cleaning
     """
     name = clean_company_name(name)
@@ -52,8 +51,7 @@ def clean_company_name(name):
     """
     Processes company names by stripping away and removing unwanted characters (such as commas, brackets, quotation marks, etc.)
 
-    :param name: the name of the company that is being processed
-
+    :param str name: the name of the company that is being processed
     :return: the cleaned name of the company without unwanted characters
     """
     name = name.strip()
@@ -68,8 +66,7 @@ def cleanco_company_name(name):
     """
     Processes company names by stripping away terms indicating organization type (such as "Ltd." or "Corp").
 
-    :param name: the name of the company that is being processed
-
+    :param str name: the name of the company that is being processed
     :return: the cleaned name of the company without terms indicating organization type
     """
     terms = prepare_terms()
@@ -82,8 +79,7 @@ def capital_letters(name):
     """
     Capitalizing the first letter of the company names like a header or a title.
 
-    :param name: the name of the company that is being capitalized
-
+    :param str name: the name of the company that is being capitalized
     :return: the name of the company with capital first letters
     """
     name = name.title()

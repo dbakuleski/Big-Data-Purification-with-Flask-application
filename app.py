@@ -9,9 +9,9 @@ app = Flask(__name__)
 @app.route('/')
 def hello_companies():
     """
-    A function that displays certain message on the front of the app.
+    Displays certain message on the front of the app.
 
-    :return: returns message: "Companies"
+    :return: Message: "Companies"
     """
     return 'Companies'
 
@@ -19,7 +19,7 @@ def hello_companies():
 @app.route('/get-companies-names', methods=["GET"])
 def readDataSQLite():
     """
-    A function to connect to a given SQLite database and to read all data.
+    Connects to a given SQLite database and to read all data.
 
     :return: the data from the SQLite database
     """
@@ -34,7 +34,7 @@ def readDataSQLite():
 @app.route('/one-company-data', methods=["GET"])
 def oneCompany():
     """
-    A function to connect to a given SQLite database and to read the data from only one company.
+    Connects to a given SQLite database and reads the data from only one company.
 
     :return: the data from one company
     """
@@ -49,9 +49,9 @@ def oneCompany():
 
 def get_database():
     """
-    A function to connect to the MongoDB Server and create a database.
+    Connects to the MongoDB Server and creates a database.
 
-    :return: returns the database that is crated
+    :return: the database that is crated
     """
     client = pymongo.MongoClient("mongodb://localhost:27017")
     database = client["flaskapp"]
@@ -64,7 +64,7 @@ db = get_database()
 @app.route('/create', methods=["POST"])
 def create_companies():
     """
-    A function that posts the final company names in MongoDB after the names are processed by the cleaning functions.
+    Posts the final company names in MongoDB after the names are processed by the cleaning functions.
 
     :return: a message that the company is successfully added
     """
